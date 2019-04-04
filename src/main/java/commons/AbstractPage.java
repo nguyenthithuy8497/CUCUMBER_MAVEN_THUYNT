@@ -20,6 +20,8 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.Reporter;
 
 import PageObjects.DepositePageObject;
 import PageObjects.FundTransferPageObject;
@@ -545,6 +547,17 @@ public class AbstractPage {
 			return null;
 		}
 	}
+	public Object removeAttributeInDOM(WebDriver driver, String locator, String attribute,String... dynamicValue) {
+		try {
+			locator= String.format(locator, (Object[]) dynamicValue);
+			WebElement element = driver.findElement(By.xpath(locator));
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			return js.executeScript("arguments[0].removeAttribute('" + attribute + "');", element);
+		} catch (Exception e) {
+			e.getMessage();
+			return null;
+		}
+	}
 
 	public Object navigateToUrlByJS(WebDriver driver, String url) {
 		try {
@@ -602,109 +615,5 @@ public class AbstractPage {
 		}
 	}
 
-	public AbstractPage openDynamicPage(WebDriver driver, String pageName) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_LINK, pageName);
-		clickToElement(driver, AbstractPageUI.DYNAMIC_LINK, pageName);
-		switch (pageName) {
-		case "New Customer":
-			return PageFactoryManager.getNewCustomerPage(driver);
-		case "New Account":
-			return PageFactoryManager.getNewAccountPage(driver);
-		case "Deposit":
-			return PageFactoryManager.getDepositePage(driver);
-		case "Fund Transfer":
-			return PageFactoryManager.getFunTransferPage(driver);
-		default:
-			return PageFactoryManager.getHomePage(driver);
-		}
-	}
 	
-	
-	//trường hợp có quá nhiều page (100-1000 page) k thể sử dụng switch... case
-	
-
-	public void openDynamicMorePage(WebDriver driver, String pageName) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_LINK, pageName);
-		clickToElement(driver, AbstractPageUI.DYNAMIC_LINK, pageName);
-		
-	}
-	
-	
-	
-
-	// 13 ham de mo 13 page ma khong can viet di viet lai 169 ham trong page object
-
-	public NewCustomerPageObject openNewCustomerPage(WebDriver driver) {
-		waitToElementVisible(driver, AbstractPageUI.NEW_CUSTOMER_LINK);
-		clickToElement(driver, AbstractPageUI.NEW_CUSTOMER_LINK);
-		return PageFactoryManager.getNewCustomerPage(driver);
-	}
-
-	public FundTransferPageObject openFundTransferPage(WebDriver driver) {
-		waitToElementVisible(driver, AbstractPageUI.FUNDTRANSFER_LINK);
-		clickToElement(driver, AbstractPageUI.FUNDTRANSFER_LINK);
-		return PageFactoryManager.getFunTransferPage(driver);
-	}
-
-	public DepositePageObject openDepositePage(WebDriver driver) {
-		waitToElementVisible(driver, AbstractPageUI.DEPOSITE_LINK);
-		clickToElement(driver, AbstractPageUI.DEPOSITE_LINK);
-		return PageFactoryManager.getDepositePage(driver);
-	}
-
-	public NewAccountPageObject openNewAccountPage(WebDriver driver) {
-		waitToElementVisible(driver, AbstractPageUI.NEW_ACCOUNT_LINK);
-		clickToElement(driver, AbstractPageUI.NEW_ACCOUNT_LINK);
-		return PageFactoryManager.getNewAccountPage(driver);
-	}
-
-	public HomePageObject openHomePage(WebDriver driver) {
-		waitToElementVisible(driver, AbstractPageUI.HOMEPAGE_LINK);
-		clickToElement(driver, AbstractPageUI.HOMEPAGE_LINK);
-		return PageFactoryManager.getopenHomePage(driver);
-	}
-	
-	public void inputToDynamicTextbox(WebDriver driver, String textboxNameID, String valueToSendkey) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_TEXTBOX_BUTTON,textboxNameID);
-		
-		sendkeyToElement(driver, AbstractPageUI.DYNAMIC_TEXTBOX_BUTTON, valueToSendkey,textboxNameID);
-	}
-	
-	//do date co dang calender
-	public void inputDateTextbox(WebDriver driver, String textboxNameID, String valueToSendkey ) {
-		
-		WebElement inputs = driver.findElement(By.xpath(AbstractPageUI.DATE_TEXTBOX));
-		    ((JavascriptExecutor) driver).executeScript(
-		                "arguments[0].removeAttribute('type')",inputs);
-		    sendkeyToElement(driver, AbstractPageUI.DYNAMIC_TEXTBOX_BUTTON, valueToSendkey,textboxNameID);
-
-		
-	}
-	
-	
-	public void inputToDynamicTextArea(WebDriver driver, String textAreaNameID, String valueToSendkey) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_TEXT_AREA,textAreaNameID);
-		sendkeyToElement(driver, AbstractPageUI.DYNAMIC_TEXT_AREA, valueToSendkey,textAreaNameID);
-		
-	}
-	public void clickToDynamicRadioButton(WebDriver driver, String radioButtonValue) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_RADIO_BUTTON,radioButtonValue);
-		clickToElement(driver, AbstractPageUI.DYNAMIC_RADIO_BUTTON, radioButtonValue);
-		
-	}
-	
-	public void clickToDynamicButton(WebDriver driver, String buttonNameValue) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_TEXTBOX_BUTTON,buttonNameValue);
-		clickToElement(driver, AbstractPageUI.DYNAMIC_TEXTBOX_BUTTON,buttonNameValue);
-		
-	}
-	public boolean isDynamicPageOrMessageDisplay(WebDriver driver, String pageHeadingName) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_PAGEHAEDING,pageHeadingName);
-		return isControlDisplayed(driver, AbstractPageUI.DYNAMIC_PAGEHAEDING,pageHeadingName);
-	}
-	
-	public String getDynamicTextInTable(WebDriver driver, String rowName) {
-		waitToElementVisible(driver, AbstractPageUI.DYNAMIC_TABLE_ROWNAME,rowName);
-		return getTextElement(driver, AbstractPageUI.DYNAMIC_TABLE_ROWNAME, rowName);
-	}
 }

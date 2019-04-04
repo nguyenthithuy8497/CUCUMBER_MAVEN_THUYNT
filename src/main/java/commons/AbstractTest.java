@@ -108,7 +108,7 @@ public class AbstractTest {
 
 		return driver;
 	}
-	protected int randomNumber() {
+	public int randomNumber() {
 		Random random = new Random();
 		int number = random.nextInt(999999);
 		return number;
@@ -131,7 +131,7 @@ public class AbstractTest {
 		return pass;
 	}
 
-	protected boolean verifyTrue(boolean condition) {
+	public boolean verifyTrue(boolean condition) {
 		return checkPassed(condition);
 	}
 
@@ -151,7 +151,7 @@ public class AbstractTest {
 		return pass;
 	}
 
-	protected boolean verifyFalse(boolean condition) {
+	public boolean verifyFalse(boolean condition) {
 		return checkFailed(condition);
 	}
 
@@ -185,9 +185,12 @@ public class AbstractTest {
 		}
 		return pass;
 	}
-	protected boolean verifyEquals(Object actual, Object expected) {
+	public boolean verifyEquals(Object actual, Object expected) {
 		return checkEquals(actual, expected);
 	}
+	
+	
+	
 	protected void closeBrowserAndDriver(WebDriver driver) {
     	try {
 			String osName = System.getProperty("os.name").toLowerCase();

@@ -13,7 +13,7 @@ import cucumber.api.junit.Cucumber;
 		monochrome= true,
 		plugin= {"pretty", "html:target/report_html/cucumber-report-default","json:target/report_html/cucumber.json"},
 		snippets = SnippetType.CAMELCASE,
-		tags = {"@login_register"}
+		tags = {"@Customer_Dynamic"}
 		)
 public class CucumberTestRunner {
 

@@ -52,5 +52,9 @@ public class PageFactoryManager {
 		return new DeleteAccountPageObject(drvier);
 	}
 	
+	public static AbstractPageObject getAbstbractPage(WebDriver driver) {
+		return new AbstractPageObject(driver);
+	}
+	
 	
 }
